@@ -1,0 +1,14 @@
+[package]
+name = "alien_temple"
+version = "0.1.0"
+edition = "2021"
+authors = ["Axlefublr"]
+license = "MIT"
+description = "project name reserved"
+readme = "README.md"
+homepage = "https://github.com/Axlefublr/alien_temple"
+repository = "https://github.com/Axlefublr/alien_temple"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
