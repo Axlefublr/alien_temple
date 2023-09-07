@@ -31,6 +31,10 @@ pub enum UserCommands {
 	Favorite {
 		name: String
 	},
+	#[command(visible_alias = "fin")]
+	Finish {
+		name: String
+	},
 	#[command(visible_alias = "con")]
 	Consent,
 	Touch,
