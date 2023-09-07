@@ -37,7 +37,11 @@ pub enum UserCommands {
 	},
 	#[command(visible_alias = "con")]
 	Consent,
-	Touch,
+	Touch {
+		track: String,
+		#[arg(short, long)]
+		timestamp: Option<String>
+	},
 	Shark,
 	Rotate
 }

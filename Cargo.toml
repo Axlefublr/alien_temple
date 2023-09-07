@@ -14,3 +14,4 @@ repository = "https://github.com/Axlefublr/alien_temple"
 [dependencies]
 chrono = "0.4.29"
 clap = { version = "4.4.2", features = ["derive"] }
+regex = "1.9.5"
