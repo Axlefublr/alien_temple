@@ -24,7 +24,7 @@ pub fn consent() -> ExitCode {
 	}
 }
 
-pub fn touch(track: String, should_commit: bool) -> ExitCode {
+pub fn touch(track: String) -> ExitCode {
 	let new_repo = match NewRepo::new() {
 		Ok(repo) => repo,
 		Err(message) => {
@@ -54,16 +54,14 @@ pub fn touch(track: String, should_commit: bool) -> ExitCode {
 		eprintln!("{}", message);
 		return ExitCode::FAILURE;
 	};
-	if should_commit {
-		if let Err(message) = git_add_commit(&format!("touch {}", &artist)) {
-			eprintln!("{}", message);
-			return ExitCode::FAILURE;
-		}
+	if let Err(message) = git_add_commit(&format!("touch {}", &artist)) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
 	}
 	ExitCode::SUCCESS
 }
 
-pub fn tinish(should_commit: bool) -> ExitCode {
+pub fn tinish() -> ExitCode {
 	let new_repo = match NewRepo::new() {
 		Ok(repo) => repo,
 		Err(message) => {
@@ -78,16 +76,14 @@ pub fn tinish(should_commit: bool) -> ExitCode {
 			return ExitCode::FAILURE;
 		}
 	};
-	if should_commit {
-		if let Err(message) = git_add_commit(&format!("touch & finish {}", &artist)) {
-			eprintln!("{}", message);
-			return ExitCode::FAILURE;
-		}
+	if let Err(message) = git_add_commit(&format!("touch & finish {}", &artist)) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
 	}
 	ExitCode::SUCCESS
 }
 
-pub fn interest(name: String, timestamp: Option<String>, should_commit: bool) -> ExitCode {
+pub fn interest(name: String, timestamp: Option<String>) -> ExitCode {
 	let new_repo = match NewRepo::new() {
 		Ok(repo) => repo,
 		Err(message) => {
@@ -114,11 +110,9 @@ pub fn interest(name: String, timestamp: Option<String>, should_commit: bool) ->
 		eprintln!("{}", message);
 		return ExitCode::FAILURE;
 	}
-	if should_commit {
-		if let Err(message) = git_add_commit(&format!("interest {}", &name)) {
-			eprintln!("{}", message);
-			return ExitCode::FAILURE;
-		}
+	if let Err(message) = git_add_commit(&format!("interest {}", &name)) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
 	}
 	ExitCode::SUCCESS
 }
@@ -144,7 +138,7 @@ pub fn shark() -> ExitCode {
 	}
 }
 
-pub fn rotate(track: String, should_commit: bool) -> ExitCode {
+pub fn rotate(track: String) -> ExitCode {
 	let rotate_repo = match RotateRepo::new() {
 		Ok(repo) => repo,
 		Err(message) => {
@@ -159,16 +153,14 @@ pub fn rotate(track: String, should_commit: bool) -> ExitCode {
 			return ExitCode::FAILURE;
 		}
 	};
-	if should_commit {
-		if let Err(message) = git_add_commit(&format!("rotate {}", &artist)) {
-			eprintln!("{}", message);
-			return ExitCode::FAILURE;
-		}
+	if let Err(message) = git_add_commit(&format!("rotate {}", &artist)) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
 	}
 	ExitCode::SUCCESS
 }
 
-pub fn finish(should_commit: bool) -> ExitCode {
+pub fn finish() -> ExitCode {
 	let rotate_repo = match RotateRepo::new() {
 		Ok(repo) => repo,
 		Err(message) => {
@@ -183,11 +175,31 @@ pub fn finish(should_commit: bool) -> ExitCode {
 			return ExitCode::FAILURE;
 		}
 	};
-	if should_commit {
-		if let Err(message) = git_add_commit(&format!("rotate & finish {}", &artist)) {
+	if let Err(message) = git_add_commit(&format!("rotate & finish {}", &artist)) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
+	}
+	ExitCode::SUCCESS
+}
+
+pub fn uninterest() -> ExitCode {
+	let rotate_repo = match RotateRepo::new() {
+		Ok(repo) => repo,
+		Err(message) => {
 			eprintln!("{}", message);
 			return ExitCode::FAILURE;
 		}
+	};
+	let artist = match rotate_repo.remove_first() {
+		Ok(artist) => artist,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
+	if let Err(message) = git_add_commit(&format!("uninterest {}", &artist)) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
 	}
 	ExitCode::SUCCESS
 }

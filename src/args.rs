@@ -6,8 +6,6 @@ use clap::Subcommand;
 pub struct Args {
 	#[command(subcommand)]
 	pub action: UserCommands,
-	#[arg(short, long)]
-	pub git: bool
 }
 
 #[derive(Subcommand)]
@@ -54,7 +52,5 @@ pub enum UserCommands {
 	#[command(visible_alias = "fin")]
 	Finish,
 	#[command(visible_alias = "uni")]
-	Uninterest {
-		name: String
-	},
+	Uninterest,
 }
