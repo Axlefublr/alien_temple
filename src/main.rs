@@ -19,7 +19,7 @@ fn main() -> ExitCode {
 		UserCommands::Playlist { name, track } => unimplemented!(),
 		UserCommands::Consent => actions::consent(),
 		UserCommands::Touch { track} => actions::touch(track, should_commit),
-		UserCommands::Tinish => unimplemented!(),
+		UserCommands::Tinish => actions::tinish(should_commit),
 		UserCommands::Interest { name, timestamp } => actions::interest(name, timestamp, should_commit),
 		UserCommands::Discover { name, timestamp } => unimplemented!(),
 		UserCommands::Favorite { name, timestamp } => unimplemented!(),

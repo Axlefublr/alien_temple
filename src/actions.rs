@@ -46,7 +46,7 @@ pub fn touch(track: String, should_commit: bool) -> ExitCode {
 			return ExitCode::FAILURE;
 		}
 	};
-	if let Err(message) = new_repo.kill_first() {
+	if let Err(message) = new_repo.remove_first() {
 		eprintln!("{}", message);
 		return ExitCode::FAILURE;
 	}
@@ -56,6 +56,30 @@ pub fn touch(track: String, should_commit: bool) -> ExitCode {
 	};
 	if should_commit {
 		if let Err(message) = git_add_commit(&format!("touch {}", &artist)) {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	}
+	ExitCode::SUCCESS
+}
+
+pub fn tinish(should_commit: bool) -> ExitCode {
+	let new_repo = match NewRepo::new() {
+		Ok(repo) => repo,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
+	let artist = match new_repo.remove_first() {
+		Ok(artist) => artist,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
+	if should_commit {
+		if let Err(message) = git_add_commit(&format!("touch & finish {}", &artist)) {
 			eprintln!("{}", message);
 			return ExitCode::FAILURE;
 		}

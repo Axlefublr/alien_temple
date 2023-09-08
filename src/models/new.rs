@@ -27,7 +27,8 @@ impl NewRepo {
 		Ok(artist)
 	}
 
-	pub fn kill_first(mut self) -> Result<(), &'static str> {
+	pub fn remove_first(mut self) -> Result<String, &'static str> {
+		let artist = self.peek()?;
 		self.contents = self
 			.contents
 			.lines()
@@ -35,7 +36,8 @@ impl NewRepo {
 			.map(|line| line.to_owned())
 			.collect::<Vec<_>>()
 			.join("\n");
-		self.save()
+		self.save()?;
+		Ok(artist)
 	}
 
 	pub fn has(&self, artist: &str) -> bool {
