@@ -68,12 +68,21 @@ impl RotateRepo {
 		})
 	}
 
-	pub fn rotate(mut self, track: &str) -> Result<(), &'static str> {
+	pub fn rotate(mut self, track: &str) -> Result<String, &'static str> {
 		let artist_track = self.peek()?;
 		let mut other_lines = self.contents.lines().skip(1).map(|line| line.to_owned()).collect::<Vec<_>>();
 		other_lines.push(format!("{} — {} — {}", artist_track.timestamp, artist_track.artist, track));
 		self.contents = other_lines.join("\n");
-		self.save()
+		self.save()?;
+		Ok(artist_track.artist)
+	}
+
+	pub fn finish(mut self) -> Result<String, &'static str> {
+		let artist_track = self.peek()?;
+		let other_lines = self.contents.lines().skip(1).map(|line| line.to_owned()).collect::<Vec<_>>();
+		self.contents = other_lines.join("\n");
+		self.save()?;
+		Ok(artist_track.artist)
 	}
 
 	fn save(self) -> Result<(), &'static str> {

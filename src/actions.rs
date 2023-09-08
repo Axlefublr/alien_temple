@@ -130,3 +130,21 @@ pub fn rotate(track: String, should_commit: bool) -> ExitCode {
 	}
 	ExitCode::SUCCESS
 }
+
+pub fn finish(should_commit: bool) -> ExitCode {
+	let rotate_repo = match RotateRepo::new() {
+		Ok(repo) => repo,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
+	if let Err(message) = rotate_repo.finish() {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
+	}
+	if should_commit {
+		unimplemented!()
+	}
+	ExitCode::SUCCESS
+}

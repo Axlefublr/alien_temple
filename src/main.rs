@@ -20,7 +20,7 @@ fn main() -> ExitCode {
 		UserCommands::Interest { name, timestamp } => actions::interest(name, timestamp, should_commit),
 		UserCommands::Shark => actions::shark(),
 		UserCommands::Rotate { track } => actions::rotate(track, should_commit),
-		UserCommands::Finish { name } => unimplemented!(),
+		UserCommands::Finish => actions::finish(should_commit),
 		UserCommands::Uninterest { name } => unimplemented!(),
 		UserCommands::Discover { name } => unimplemented!(),
 		UserCommands::Favorite { name } => unimplemented!(),

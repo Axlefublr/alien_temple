@@ -42,9 +42,7 @@ pub enum UserCommands {
 		name: String
 	},
 	#[command(visible_alias = "fin")]
-	Finish {
-		name: String
-	},
+	Finish,
 	#[command(visible_alias = "con")]
 	Consent,
 	Touch {
