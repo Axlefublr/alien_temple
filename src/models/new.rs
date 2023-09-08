@@ -1,3 +1,6 @@
+use chrono::Utc;
+
+use crate::extra::DATE_TIME_FORMAT;
 use crate::extra::NEW_FILE;
 use std::fs;
 
@@ -32,6 +35,29 @@ impl NewRepo {
 			.map(|line| line.to_owned())
 			.collect::<Vec<_>>()
 			.join("\n");
+		self.save()
+	}
+
+	pub fn has(&self, artist: &str) -> bool {
+		self.contents.lines().any(|line| {
+			line.split(" — ")
+				.nth(1)
+				.expect("new file should use — separator")
+				== artist
+		})
+	}
+
+	pub fn add(mut self, artist: &str, timestamp: &Option<String>) -> Result<(), &'static str> {
+		let today = match timestamp {
+			Some(timestamp) => timestamp.to_owned(),
+			None => Utc::now().format(DATE_TIME_FORMAT).to_string(),
+		};
+		let mut lines = self.contents
+			.lines()
+			.map(|line| line.to_owned())
+			.collect::<Vec<_>>();
+		lines.push(format!("{} — {}", today, artist));
+		self.contents = lines.join("\n");
 		self.save()
 	}
 

@@ -25,10 +25,16 @@ pub enum UserCommands {
 	},
 	#[command(visible_alias = "int")]
 	Interest {
-		name: String
+		name: String,
+		#[arg(short, long)]
+		timestamp: Option<String>
 	},
 	#[command(visible_alias = "fav")]
 	Favorite {
+		name: String
+	},
+	#[command(visible_alias = "unfav")]
+	Unfavorite {
 		name: String
 	},
 	#[command(visible_alias = "fin")]
@@ -43,5 +49,5 @@ pub enum UserCommands {
 		timestamp: Option<String>
 	},
 	Shark,
-	Rotate
+	Rotate,
 }

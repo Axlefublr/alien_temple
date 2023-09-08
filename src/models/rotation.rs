@@ -15,10 +15,15 @@ impl RotateRepo {
 		Ok(Self { contents })
 	}
 
-	pub fn add(mut self, artist: &str, track: &str, timestamp: &Option<String>) -> Result<(), &'static str> {
+	pub fn add(
+		mut self,
+		artist: &str,
+		track: &str,
+		timestamp: &Option<String>,
+	) -> Result<(), &'static str> {
 		let today = match timestamp {
 			Some(timestamp) => timestamp.to_owned(),
-			None => Utc::now().format(DATE_TIME_FORMAT).to_string()
+			None => Utc::now().format(DATE_TIME_FORMAT).to_string(),
 		};
 		let mut lines = self
 			.contents
@@ -28,6 +33,15 @@ impl RotateRepo {
 		lines.push(format!("{} — {} — {}", today, artist, track));
 		self.contents = lines.join("\n");
 		self.save()
+	}
+
+	pub fn has(&self, artist: &str) -> bool {
+		self.contents.lines().any(|line| {
+			line.split(" — ")
+				.nth(1)
+				.expect("rotate file should be using the — separator")
+				== artist
+		})
 	}
 
 	fn save(self) -> Result<(), &'static str> {
