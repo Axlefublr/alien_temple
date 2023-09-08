@@ -1,5 +1,4 @@
-use chrono::Utc;
-
+use chrono::Local;
 use crate::extra::DATE_TIME_FORMAT;
 use crate::extra::NEW_FILE;
 use std::fs;
@@ -49,7 +48,7 @@ impl NewRepo {
 	pub fn add(mut self, artist: &str, timestamp: &Option<String>) -> Result<(), &'static str> {
 		let today = match timestamp {
 			Some(timestamp) => timestamp.to_owned(),
-			None => Utc::now().format(DATE_TIME_FORMAT).to_string(),
+			None => Local::now().format(DATE_TIME_FORMAT).to_string(),
 		};
 		let mut lines = self
 			.contents

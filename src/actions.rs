@@ -1,5 +1,6 @@
 use std::process::ExitCode;
 
+use crate::models::discovery::DiscoveryRepo;
 use crate::models::new::NewRepo;
 use crate::models::rotation::RotateRepo;
 use crate::sh::git_add_commit;
@@ -111,6 +112,25 @@ pub fn interest(name: String, timestamp: Option<String>) -> ExitCode {
 		return ExitCode::FAILURE;
 	}
 	if let Err(message) = git_add_commit(&format!("interest {}", &name)) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
+	}
+	ExitCode::SUCCESS
+}
+
+pub fn discover(name: String, timestamp: Option<String>) -> ExitCode {
+	let discovery_repo = match DiscoveryRepo::new() {
+		Ok(repo) => repo,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
+	if let Err(message) = discovery_repo.add(&name, &timestamp) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
+	}
+	if let Err(message) = git_add_commit(&format!("discover {}", &name)) {
 		eprintln!("{}", message);
 		return ExitCode::FAILURE;
 	}

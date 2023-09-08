@@ -22,7 +22,7 @@ fn main() -> ExitCode {
 		UserCommands::Interest { name, timestamp } => {
 			actions::interest(name, timestamp)
 		}
-		UserCommands::Discover { name, timestamp } => unimplemented!(),
+		UserCommands::Discover { name, timestamp } => actions::discover(name, timestamp),
 		UserCommands::Favorite { name, timestamp } => unimplemented!(),
 		UserCommands::Unfavorite { name } => unimplemented!(),
 		UserCommands::Shark => actions::shark(),

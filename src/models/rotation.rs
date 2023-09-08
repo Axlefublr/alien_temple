@@ -1,6 +1,6 @@
 use std::fs;
 
-use chrono::Utc;
+use chrono::Local;
 
 use crate::extra::DATE_TIME_FORMAT;
 use crate::extra::ROTATE_FILE;
@@ -22,7 +22,7 @@ impl RotateRepo {
 	}
 
 	pub fn add(mut self, artist: &str, track: &str) -> Result<(), &'static str> {
-		let today = Utc::now().format(DATE_TIME_FORMAT);
+		let today = Local::now().format(DATE_TIME_FORMAT);
 		let mut lines = self
 			.contents
 			.lines()
