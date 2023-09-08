@@ -18,13 +18,14 @@ fn main() -> ExitCode {
 		UserCommands::Consent => actions::consent(),
 		UserCommands::Touch { track, timestamp } => actions::touch(track, timestamp, should_commit),
 		UserCommands::Interest { name, timestamp } => actions::interest(name, timestamp, should_commit),
-		UserCommands::Shark => unimplemented!(),
+		UserCommands::Shark => actions::shark(),
 		UserCommands::Rotate => unimplemented!(),
 		UserCommands::Finish { name } => unimplemented!(),
+		UserCommands::Uninterest { name } => unimplemented!(),
 		UserCommands::Discover { name } => unimplemented!(),
 		UserCommands::Favorite { name } => unimplemented!(),
+		UserCommands::Unfavorite { name } => unimplemented!(),
 		UserCommands::Whomst => unimplemented!(),
 		UserCommands::Playlist { name, track } => unimplemented!(),
-		UserCommands::Unfavorite { name } => unimplemented!(),
 	}
 }

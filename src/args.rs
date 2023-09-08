@@ -29,6 +29,10 @@ pub enum UserCommands {
 		#[arg(short, long)]
 		timestamp: Option<String>
 	},
+	#[command(visible_alias = "uni")]
+	Uninterest {
+		name: String
+	},
 	#[command(visible_alias = "fav")]
 	Favorite {
 		name: String

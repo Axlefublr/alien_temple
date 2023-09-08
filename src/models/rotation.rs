@@ -5,6 +5,11 @@ use chrono::Utc;
 use crate::extra::DATE_TIME_FORMAT;
 use crate::extra::ROTATE_FILE;
 
+pub struct ArtistTrack {
+	pub artist: String,
+	pub track: String
+}
+
 pub struct RotateRepo {
 	contents: String,
 }
@@ -41,6 +46,21 @@ impl RotateRepo {
 				.nth(1)
 				.expect("rotate file should be using the — separator")
 				== artist
+		})
+	}
+
+	pub fn peek(&self) -> Result<ArtistTrack, &'static str> {
+		let mut artist_pair = self.contents
+			.lines()
+			.next()
+			.ok_or("rotate file has no lines")?
+			.split(" — ")
+			.skip(1);
+		let artist = artist_pair.next().ok_or("rotate file doesn't use —")?.to_owned();
+		let track = artist_pair.next().ok_or("rotate file doesn't use —")?.to_owned();
+		Ok(ArtistTrack {
+			artist,
+			track
 		})
 	}
 

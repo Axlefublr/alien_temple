@@ -91,3 +91,24 @@ pub fn interest(name: String, timestamp: Option<String>, should_commit: bool) ->
 	}
 	ExitCode::SUCCESS
 }
+
+pub fn shark() -> ExitCode {
+	let rotate_repo = match RotateRepo::new() {
+		Ok(repo) => repo,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
+	match rotate_repo.peek() {
+		Ok(artist_track) => {
+			println!("{}", artist_track.artist);
+			println!("{}", artist_track.track);
+			ExitCode::SUCCESS
+		},
+		Err(message) => {
+			eprintln!("{}", message);
+			ExitCode::FAILURE
+		}
+	}
+}
