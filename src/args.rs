@@ -19,39 +19,42 @@ pub enum UserCommands {
 		name: String,
 		track: String
 	},
-	#[command(visible_alias = "disc")]
-	Discover {
-		name: String
+	#[command(visible_alias = "con")]
+	Consent,
+	Touch {
+		track: String,
 	},
+	Tinish,
 	#[command(visible_alias = "int")]
 	Interest {
 		name: String,
 		#[arg(short, long)]
 		timestamp: Option<String>
 	},
-	#[command(visible_alias = "uni")]
-	Uninterest {
-		name: String
+	#[command(visible_alias = "disc")]
+	Discover {
+		name: String,
+		#[arg(short, long)]
+		timestamp: Option<String>
 	},
 	#[command(visible_alias = "fav")]
 	Favorite {
-		name: String
+		name: String,
+		#[arg(short, long)]
+		timestamp: Option<String>
 	},
 	#[command(visible_alias = "unfav")]
 	Unfavorite {
 		name: String
 	},
-	#[command(visible_alias = "fin")]
-	Finish,
-	#[command(visible_alias = "con")]
-	Consent,
-	Touch {
-		track: String,
-		#[arg(short, long)]
-		timestamp: Option<String>
-	},
 	Shark,
 	Rotate {
 		track: String
+	},
+	#[command(visible_alias = "fin")]
+	Finish,
+	#[command(visible_alias = "uni")]
+	Uninterest {
+		name: String
 	},
 }

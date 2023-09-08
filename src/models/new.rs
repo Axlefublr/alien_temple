@@ -19,7 +19,7 @@ impl NewRepo {
 			.contents
 			.lines()
 			.next()
-			.ok_or("since file isn't empty, it should contain at least one line")?
+			.ok_or("new file doesn't contain a single line")?
 			.split(" — ")
 			.nth(1)
 			.ok_or("new file has a line that isn't separated by —")?
@@ -39,12 +39,9 @@ impl NewRepo {
 	}
 
 	pub fn has(&self, artist: &str) -> bool {
-		self.contents.lines().any(|line| {
-			line.split(" — ")
-				.nth(1)
-				.expect("new file should use — separator")
-				== artist
-		})
+		self.contents
+			.lines()
+			.any(|line| line.split(" — ").nth(1).unwrap_or_default() == artist)
 	}
 
 	pub fn add(mut self, artist: &str, timestamp: &Option<String>) -> Result<(), &'static str> {
@@ -52,7 +49,8 @@ impl NewRepo {
 			Some(timestamp) => timestamp.to_owned(),
 			None => Utc::now().format(DATE_TIME_FORMAT).to_string(),
 		};
-		let mut lines = self.contents
+		let mut lines = self
+			.contents
 			.lines()
 			.map(|line| line.to_owned())
 			.collect::<Vec<_>>();
@@ -68,8 +66,5 @@ impl NewRepo {
 
 fn parse() -> Result<String, &'static str> {
 	let contents = fs::read_to_string(NEW_FILE).map_err(|_| "couldn't read new file")?;
-	if contents.is_empty() {
-		return Err("no new rappers!");
-	}
 	Ok(contents)
 }

@@ -15,17 +15,18 @@ fn main() -> ExitCode {
 	let args = Args::parse();
 	let should_commit = args.git;
 	match args.action {
+		UserCommands::Whomst => unimplemented!(),
+		UserCommands::Playlist { name, track } => unimplemented!(),
 		UserCommands::Consent => actions::consent(),
-		UserCommands::Touch { track, timestamp } => actions::touch(track, timestamp, should_commit),
+		UserCommands::Touch { track} => actions::touch(track, should_commit),
+		UserCommands::Tinish => unimplemented!(),
 		UserCommands::Interest { name, timestamp } => actions::interest(name, timestamp, should_commit),
+		UserCommands::Discover { name, timestamp } => unimplemented!(),
+		UserCommands::Favorite { name, timestamp } => unimplemented!(),
+		UserCommands::Unfavorite { name } => unimplemented!(),
 		UserCommands::Shark => actions::shark(),
 		UserCommands::Rotate { track } => actions::rotate(track, should_commit),
 		UserCommands::Finish => actions::finish(should_commit),
 		UserCommands::Uninterest { name } => unimplemented!(),
-		UserCommands::Discover { name } => unimplemented!(),
-		UserCommands::Favorite { name } => unimplemented!(),
-		UserCommands::Unfavorite { name } => unimplemented!(),
-		UserCommands::Whomst => unimplemented!(),
-		UserCommands::Playlist { name, track } => unimplemented!(),
 	}
 }

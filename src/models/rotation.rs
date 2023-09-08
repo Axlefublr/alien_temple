@@ -21,16 +21,8 @@ impl RotateRepo {
 		Ok(Self { contents })
 	}
 
-	pub fn add(
-		mut self,
-		artist: &str,
-		track: &str,
-		timestamp: &Option<String>,
-	) -> Result<(), &'static str> {
-		let today = match timestamp {
-			Some(timestamp) => timestamp.to_owned(),
-			None => Utc::now().format(DATE_TIME_FORMAT).to_string(),
-		};
+	pub fn add(mut self, artist: &str, track: &str) -> Result<(), &'static str> {
+		let today = Utc::now().format(DATE_TIME_FORMAT);
 		let mut lines = self
 			.contents
 			.lines()
@@ -42,12 +34,9 @@ impl RotateRepo {
 	}
 
 	pub fn has(&self, artist: &str) -> bool {
-		self.contents.lines().any(|line| {
-			line.split(" — ")
-				.nth(1)
-				.expect("rotate file should be using the — separator")
-				== artist
-		})
+		self.contents
+			.lines()
+			.any(|line| line.split(" — ").nth(1).unwrap_or_default() == artist)
 	}
 
 	pub fn peek(&self) -> Result<ArtistTrack, &'static str> {
@@ -70,8 +59,16 @@ impl RotateRepo {
 
 	pub fn rotate(mut self, track: &str) -> Result<String, &'static str> {
 		let artist_track = self.peek()?;
-		let mut other_lines = self.contents.lines().skip(1).map(|line| line.to_owned()).collect::<Vec<_>>();
-		other_lines.push(format!("{} — {} — {}", artist_track.timestamp, artist_track.artist, track));
+		let mut other_lines = self
+			.contents
+			.lines()
+			.skip(1)
+			.map(|line| line.to_owned())
+			.collect::<Vec<_>>();
+		other_lines.push(format!(
+			"{} — {} — {}",
+			artist_track.timestamp, artist_track.artist, track
+		));
 		self.contents = other_lines.join("\n");
 		self.save()?;
 		Ok(artist_track.artist)
@@ -79,7 +76,12 @@ impl RotateRepo {
 
 	pub fn remove_first(mut self) -> Result<String, &'static str> {
 		let artist_track = self.peek()?;
-		let other_lines = self.contents.lines().skip(1).map(|line| line.to_owned()).collect::<Vec<_>>();
+		let other_lines = self
+			.contents
+			.lines()
+			.skip(1)
+			.map(|line| line.to_owned())
+			.collect::<Vec<_>>();
 		self.contents = other_lines.join("\n");
 		self.save()?;
 		Ok(artist_track.artist)

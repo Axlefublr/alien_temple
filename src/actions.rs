@@ -24,7 +24,7 @@ pub fn consent() -> ExitCode {
 	}
 }
 
-pub fn touch(track: String, timestamp: Option<String>, should_commit: bool) -> ExitCode {
+pub fn touch(track: String, should_commit: bool) -> ExitCode {
 	let new_repo = match NewRepo::new() {
 		Ok(repo) => repo,
 		Err(message) => {
@@ -50,7 +50,7 @@ pub fn touch(track: String, timestamp: Option<String>, should_commit: bool) -> E
 		eprintln!("{}", message);
 		return ExitCode::FAILURE;
 	}
-	if let Err(message) = rotate_repo.add(&artist, &track, &timestamp) {
+	if let Err(message) = rotate_repo.add(&artist, &track) {
 		eprintln!("{}", message);
 		return ExitCode::FAILURE;
 	};
