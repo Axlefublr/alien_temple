@@ -2,6 +2,7 @@ use std::process::ExitCode;
 
 use crate::models::new::NewRepo;
 use crate::models::rotation::RotateRepo;
+use crate::sh::git_add_commit;
 
 pub fn consent() -> ExitCode {
 	let new_repo = match NewRepo::new() {
@@ -54,7 +55,10 @@ pub fn touch(track: String, timestamp: Option<String>, should_commit: bool) -> E
 		return ExitCode::FAILURE;
 	};
 	if should_commit {
-		unimplemented!(); // todo: git commit
+		if let Err(message) = git_add_commit(&format!("touch {}", &artist)) {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
 	}
 	ExitCode::SUCCESS
 }
@@ -87,7 +91,10 @@ pub fn interest(name: String, timestamp: Option<String>, should_commit: bool) ->
 		return ExitCode::FAILURE;
 	}
 	if should_commit {
-		unimplemented!(); // todo: git commit
+		if let Err(message) = git_add_commit(&format!("interest {}", &name)) {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
 	}
 	ExitCode::SUCCESS
 }
@@ -121,12 +128,18 @@ pub fn rotate(track: String, should_commit: bool) -> ExitCode {
 			return ExitCode::FAILURE;
 		}
 	};
-	if let Err(message) = rotate_repo.rotate(&track) {
-		eprintln!("{}", message);
-		return ExitCode::FAILURE;
-	}
+	let artist = match rotate_repo.rotate(&track) {
+		Ok(artist) => artist,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
 	if should_commit {
-		unimplemented!()
+		if let Err(message) = git_add_commit(&format!("rotate {}", &artist)) {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
 	}
 	ExitCode::SUCCESS
 }
@@ -139,12 +152,18 @@ pub fn finish(should_commit: bool) -> ExitCode {
 			return ExitCode::FAILURE;
 		}
 	};
-	if let Err(message) = rotate_repo.finish() {
-		eprintln!("{}", message);
-		return ExitCode::FAILURE;
-	}
+	let artist = match rotate_repo.remove_first() {
+		Ok(artist) => artist,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
 	if should_commit {
-		unimplemented!()
+		if let Err(message) = git_add_commit(&format!("rotate & finish {}", &artist)) {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
 	}
 	ExitCode::SUCCESS
 }

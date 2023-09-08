@@ -77,7 +77,7 @@ impl RotateRepo {
 		Ok(artist_track.artist)
 	}
 
-	pub fn finish(mut self) -> Result<String, &'static str> {
+	pub fn remove_first(mut self) -> Result<String, &'static str> {
 		let artist_track = self.peek()?;
 		let other_lines = self.contents.lines().skip(1).map(|line| line.to_owned()).collect::<Vec<_>>();
 		self.contents = other_lines.join("\n");

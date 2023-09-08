@@ -1,3 +1,4 @@
+pub const WORKING_DIR: &str = "/home/axlefublr/.local/share/alien_temple";
 pub const NEW_FILE: &str = "/home/axlefublr/.local/share/alien_temple/new.txt";
 pub const ROTATE_FILE: &str = "/home/axlefublr/.local/share/alien_temple/rotate.txt";
 
