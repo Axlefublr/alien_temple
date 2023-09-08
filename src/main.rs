@@ -19,7 +19,7 @@ fn main() -> ExitCode {
 		UserCommands::Touch { track, timestamp } => actions::touch(track, timestamp, should_commit),
 		UserCommands::Interest { name, timestamp } => actions::interest(name, timestamp, should_commit),
 		UserCommands::Shark => actions::shark(),
-		UserCommands::Rotate => unimplemented!(),
+		UserCommands::Rotate { track } => actions::rotate(track, should_commit),
 		UserCommands::Finish { name } => unimplemented!(),
 		UserCommands::Uninterest { name } => unimplemented!(),
 		UserCommands::Discover { name } => unimplemented!(),

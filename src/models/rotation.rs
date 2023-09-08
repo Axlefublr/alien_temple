@@ -6,8 +6,9 @@ use crate::extra::DATE_TIME_FORMAT;
 use crate::extra::ROTATE_FILE;
 
 pub struct ArtistTrack {
+	pub timestamp: String,
 	pub artist: String,
-	pub track: String
+	pub track: String,
 }
 
 pub struct RotateRepo {
@@ -50,18 +51,29 @@ impl RotateRepo {
 	}
 
 	pub fn peek(&self) -> Result<ArtistTrack, &'static str> {
-		let mut artist_pair = self.contents
+		let mut artist_track = self
+			.contents
 			.lines()
 			.next()
 			.ok_or("rotate file has no lines")?
-			.split(" — ")
-			.skip(1);
-		let artist = artist_pair.next().ok_or("rotate file doesn't use —")?.to_owned();
-		let track = artist_pair.next().ok_or("rotate file doesn't use —")?.to_owned();
+			.split(" — ");
+		let error_msg = "rotate file doesn't use —";
+		let timestamp = artist_track.next().ok_or(error_msg)?.to_owned();
+		let artist = artist_track.next().ok_or(error_msg)?.to_owned();
+		let track = artist_track.next().ok_or(error_msg)?.to_owned();
 		Ok(ArtistTrack {
+			timestamp,
 			artist,
-			track
+			track,
 		})
+	}
+
+	pub fn rotate(mut self, track: &str) -> Result<(), &'static str> {
+		let artist_track = self.peek()?;
+		let mut other_lines = self.contents.lines().skip(1).map(|line| line.to_owned()).collect::<Vec<_>>();
+		other_lines.push(format!("{} — {} — {}", artist_track.timestamp, artist_track.artist, track));
+		self.contents = other_lines.join("\n");
+		self.save()
 	}
 
 	fn save(self) -> Result<(), &'static str> {

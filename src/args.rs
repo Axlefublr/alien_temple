@@ -53,5 +53,7 @@ pub enum UserCommands {
 		timestamp: Option<String>
 	},
 	Shark,
-	Rotate,
+	Rotate {
+		track: String
+	},
 }

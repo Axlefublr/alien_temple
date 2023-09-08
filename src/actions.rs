@@ -112,3 +112,21 @@ pub fn shark() -> ExitCode {
 		}
 	}
 }
+
+pub fn rotate(track: String, should_commit: bool) -> ExitCode {
+	let rotate_repo = match RotateRepo::new() {
+		Ok(repo) => repo,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
+	if let Err(message) = rotate_repo.rotate(&track) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
+	}
+	if should_commit {
+		unimplemented!()
+	}
+	ExitCode::SUCCESS
+}
