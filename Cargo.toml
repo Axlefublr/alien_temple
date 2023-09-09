@@ -1,10 +1,10 @@
 [package]
 name = "alien_temple"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Axlefublr"]
 license = "MIT"
-description = "Track the music you constantly discover in a weirdly specific way"
+description = "This program is so hyperspecific to me that I'm not going to even try to make it work for others."
 readme = "README.md"
 homepage = "https://github.com/Axlefublr/alien_temple"
 repository = "https://github.com/Axlefublr/alien_temple"
