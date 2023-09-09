@@ -12,6 +12,7 @@ pub struct Args {
 pub enum UserCommands {
 	#[command(visible_alias = "who")]
 	Whomst,
+	Next,
 	#[command(visible_alias = "play")]
 	Playlist {
 		name: String,

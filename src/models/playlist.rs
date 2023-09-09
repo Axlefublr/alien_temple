@@ -13,21 +13,21 @@ pub struct PlaylistRepo {
 
 impl PlaylistRepo {
 	pub fn new() -> Result<Self, &'static str> {
-		let contents =
-			fs::read_to_string(PLAYLIST_FILE).map_err(|_| "couldn't read playlist file")?;
-		let mut lines = contents.lines();
-		let current: u32 = lines
+		let contents = fs::read_to_string(PLAYLIST_FILE).map_err(|_| "couldn't read playlist file")?;
+		let mut sections = contents.split(" — ");
+		let err_msg = "playlist file doesn't use —";
+		let current: u32 = sections
 			.next()
-			.ok_or("playlist file doesn't have any lines")?
+			.ok_or(err_msg)?
 			.parse()
-			.map_err(|_| "couldn't parse first line of playlist file to a u32")?;
-		let artist = lines
+			.map_err(|_| "couldn't parse first section of playlist file to a u32")?;
+		let artist = sections
 			.next()
-			.ok_or("playlist file doesn't contain artist")?
+			.ok_or(err_msg)?
 			.to_owned();
-		let track = lines
+		let track = sections
 			.next()
-			.ok_or("playlist file doesn't contain track")?
+			.ok_or(err_msg)?
 			.to_owned();
 		Ok(Self {
 			current,
@@ -40,14 +40,20 @@ impl PlaylistRepo {
 		let next = self.current + STEP;
 		match next > MAX_PLAYLIST {
 			true => next - MAX_PLAYLIST,
-			false => next
+			false => next,
 		}
 	}
 
 	pub fn update(mut self, artist: &str, track: &str) -> Result<(), &'static str> {
-		self.current = self.next_playlist();
 		self.artist = artist.to_owned();
 		self.track = track.to_owned();
+		self.save()
+	}
+
+	pub fn next(mut self) -> Result<(), &'static str> {
+		let next = self.next_playlist();
+		self.current = next;
+		println!("{}", next);
 		self.save()
 	}
 

@@ -13,6 +13,7 @@ fn main() -> ExitCode {
 	let args = Args::parse();
 	match args.action {
 		UserCommands::Whomst => actions::whomst(),
+		UserCommands::Next => actions::next(),
 		UserCommands::Playlist { name, track } => actions::playlist(name, track),
 		UserCommands::Consent => actions::consent(),
 		UserCommands::NoMusic => actions::no_music(),

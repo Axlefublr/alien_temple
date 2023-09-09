@@ -1,10 +1,10 @@
-use std::process::ExitCode;
 use crate::models::discovery::DiscoveryRepo;
 use crate::models::favorites::FavoriteRepo;
 use crate::models::new::NewRepo;
 use crate::models::playlist::PlaylistRepo;
 use crate::models::rotation::RotateRepo;
 use crate::sh::git_add_commit;
+use std::process::ExitCode;
 
 pub fn whomst() -> ExitCode {
 	let playlist_repo = match PlaylistRepo::new() {
@@ -15,6 +15,21 @@ pub fn whomst() -> ExitCode {
 		}
 	};
 	println!("{}", playlist_repo);
+	ExitCode::SUCCESS
+}
+
+pub fn next() -> ExitCode {
+	let playlist_repo = match PlaylistRepo::new() {
+		Ok(repo) => repo,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
+	if let Err(message) = playlist_repo.next() {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
+	}
 	ExitCode::SUCCESS
 }
 
