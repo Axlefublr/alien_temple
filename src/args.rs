@@ -64,5 +64,7 @@ pub enum UserCommands {
 	Finish,
 	/// Remove person from rotation
 	#[command(visible_alias = "uni")]
-	Uninterest,
+	Uninterest {
+		name: Option<String>
+	},
 }

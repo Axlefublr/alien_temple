@@ -313,7 +313,7 @@ pub fn finish() -> ExitCode {
 	ExitCode::SUCCESS
 }
 
-pub fn uninterest() -> ExitCode {
+pub fn uninterest(name: Option<String>) -> ExitCode {
 	let rotate_repo = match RotateRepo::new() {
 		Ok(repo) => repo,
 		Err(message) => {
@@ -321,12 +321,21 @@ pub fn uninterest() -> ExitCode {
 			return ExitCode::FAILURE;
 		}
 	};
-	let artist = match rotate_repo.remove_first() {
-		Ok(artist) => artist,
-		Err(message) => {
-			eprintln!("{}", message);
-			return ExitCode::FAILURE;
-		}
+	let artist: String = match name {
+		Some(artist) => match rotate_repo.remove(&artist) {
+			Ok(()) => artist,
+			Err(message) => {
+				eprintln!("{}", message);
+				return ExitCode::FAILURE;
+			}
+		},
+		None => match rotate_repo.remove_first() {
+			Ok(artist) => artist,
+			Err(message) => {
+				eprintln!("{}", message);
+				return ExitCode::FAILURE;
+			}
+		},
 	};
 	if let Err(message) = git_add_commit(&format!("uninterest {}", &artist)) {
 		eprintln!("{}", message);

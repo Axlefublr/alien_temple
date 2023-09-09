@@ -26,6 +26,6 @@ fn main() -> ExitCode {
 		UserCommands::Shark => actions::shark(),
 		UserCommands::Rotate { track } => actions::rotate(track),
 		UserCommands::Finish => actions::finish(),
-		UserCommands::Uninterest => actions::uninterest(),
+		UserCommands::Uninterest { name } => actions::uninterest(name),
 	}
 }

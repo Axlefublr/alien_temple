@@ -87,6 +87,22 @@ impl RotateRepo {
 		Ok(artist_track.artist)
 	}
 
+	pub fn remove(mut self, artist: &str) -> Result<(), &'static str> {
+		self.contents = self
+			.contents
+			.lines()
+			.filter(|line| {
+				line.split(" — ")
+					.nth(1)
+					.expect("rotate file doesn't use —")
+					!= artist
+			})
+			.map(|line| line.to_owned())
+			.collect::<Vec<_>>()
+			.join("\n");
+		self.save()
+	}
+
 	fn save(self) -> Result<(), &'static str> {
 		fs::write(ROTATE_FILE, self.contents).map_err(|_| "couldn't write to rotate file")
 	}
