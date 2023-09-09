@@ -24,8 +24,8 @@ pub enum UserCommands {
 	/// Who should I touch next?
 	#[command(visible_alias = "con")]
 	Consent,
-	/// Person I wanted to touch doens't have any music
-	NoMusic,
+	/// Person I wanted to touch doesn't have any music
+	Nomusic,
 	/// Touch the topmost artist, moving them to rotation
 	Touch {
 		track: String,

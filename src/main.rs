@@ -16,7 +16,7 @@ fn main() -> ExitCode {
 		UserCommands::Next => actions::next(),
 		UserCommands::Playlist { name, track } => actions::playlist(name, track),
 		UserCommands::Consent => actions::consent(),
-		UserCommands::NoMusic => actions::no_music(),
+		UserCommands::Nomusic => actions::no_music(),
 		UserCommands::Touch { track } => actions::touch(track),
 		UserCommands::Tinish => actions::tinish(),
 		UserCommands::Interest { name, timestamp } => actions::interest(name, timestamp),
