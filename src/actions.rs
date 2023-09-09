@@ -1,6 +1,6 @@
 use std::process::ExitCode;
-
 use crate::models::discovery::DiscoveryRepo;
+use crate::models::favorites::FavoriteRepo;
 use crate::models::new::NewRepo;
 use crate::models::rotation::RotateRepo;
 use crate::sh::git_add_commit;
@@ -17,7 +17,7 @@ pub fn consent() -> ExitCode {
 		Ok(artist) => {
 			println!("{}", artist);
 			ExitCode::SUCCESS
-		},
+		}
 		Err(message) => {
 			eprintln!("{}", message);
 			ExitCode::FAILURE
@@ -137,6 +137,29 @@ pub fn discover(name: String, timestamp: Option<String>) -> ExitCode {
 	ExitCode::SUCCESS
 }
 
+pub fn favorite(name: String, timestamp: Option<String>) -> ExitCode {
+	let favorite_repo = match FavoriteRepo::new() {
+		Ok(repo) => repo,
+		Err(message) => {
+			eprintln!("{}", message);
+			return ExitCode::FAILURE;
+		}
+	};
+	if favorite_repo.has(&name) {
+		eprintln!("{} is already in your favorites list!", &name);
+		return ExitCode::FAILURE;
+	}
+	if let Err(message) = favorite_repo.add(&name, &timestamp) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
+	}
+	if let Err(message) = git_add_commit(&format!("favorite {}", &name)) {
+		eprintln!("{}", message);
+		return ExitCode::FAILURE;
+	}
+	ExitCode::SUCCESS
+}
+
 pub fn shark() -> ExitCode {
 	let rotate_repo = match RotateRepo::new() {
 		Ok(repo) => repo,
@@ -150,7 +173,7 @@ pub fn shark() -> ExitCode {
 			println!("{}", artist_track.artist);
 			println!("{}", artist_track.track);
 			ExitCode::SUCCESS
-		},
+		}
 		Err(message) => {
 			eprintln!("{}", message);
 			ExitCode::FAILURE

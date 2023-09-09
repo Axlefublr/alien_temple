@@ -15,7 +15,7 @@ pub enum UserCommands {
 	#[command(visible_alias = "play")]
 	Playlist {
 		name: String,
-		track: String
+		track: String,
 	},
 	#[command(visible_alias = "con")]
 	Consent,
@@ -27,27 +27,27 @@ pub enum UserCommands {
 	Interest {
 		name: String,
 		#[arg(short, long)]
-		timestamp: Option<String>
+		timestamp: Option<String>,
 	},
 	#[command(visible_alias = "disc")]
 	Discover {
 		name: String,
 		#[arg(short, long)]
-		timestamp: Option<String>
+		timestamp: Option<String>,
 	},
 	#[command(visible_alias = "fav")]
 	Favorite {
 		name: String,
 		#[arg(short, long)]
-		timestamp: Option<String>
+		timestamp: Option<String>,
 	},
 	#[command(visible_alias = "unfav")]
 	Unfavorite {
-		name: String
+		name: String,
 	},
 	Shark,
 	Rotate {
-		track: String
+		track: String,
 	},
 	#[command(visible_alias = "fin")]
 	Finish,

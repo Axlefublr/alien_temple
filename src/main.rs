@@ -19,11 +19,9 @@ fn main() -> ExitCode {
 		UserCommands::Consent => actions::consent(),
 		UserCommands::Touch { track } => actions::touch(track),
 		UserCommands::Tinish => actions::tinish(),
-		UserCommands::Interest { name, timestamp } => {
-			actions::interest(name, timestamp)
-		}
+		UserCommands::Interest { name, timestamp } => actions::interest(name, timestamp),
 		UserCommands::Discover { name, timestamp } => actions::discover(name, timestamp),
-		UserCommands::Favorite { name, timestamp } => unimplemented!(),
+		UserCommands::Favorite { name, timestamp } => actions::favorite(name, timestamp),
 		UserCommands::Unfavorite { name } => unimplemented!(),
 		UserCommands::Shark => actions::shark(),
 		UserCommands::Rotate { track } => actions::rotate(track),

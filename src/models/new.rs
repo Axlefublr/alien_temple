@@ -1,6 +1,6 @@
-use chrono::Local;
 use crate::extra::DATE_TIME_FORMAT;
 use crate::extra::NEW_FILE;
+use chrono::Local;
 use std::fs;
 
 pub struct NewRepo {
