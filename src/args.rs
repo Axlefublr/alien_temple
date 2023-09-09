@@ -2,7 +2,7 @@ use clap::Parser;
 use clap::Subcommand;
 
 #[derive(Parser)]
-#[command(author, version, about)]
+#[command(author, version)]
 pub struct Args {
 	#[command(subcommand)]
 	pub action: UserCommands,
@@ -10,21 +10,29 @@ pub struct Args {
 
 #[derive(Subcommand)]
 pub enum UserCommands {
+	/// Last playlisted track
 	#[command(visible_alias = "who")]
 	Whomst,
+	/// Next playlist to add to
 	Next,
+	/// Update last playlisted track
 	#[command(visible_alias = "play")]
 	Playlist {
 		name: String,
 		track: String,
 	},
+	/// Who should I touch next?
 	#[command(visible_alias = "con")]
 	Consent,
+	/// Person I wanted to touch doens't have any music
 	NoMusic,
+	/// Touch the topmost artist, moving them to rotation
 	Touch {
 		track: String,
 	},
+	/// Touch and finish
 	Tinish,
+	/// Add artist to new list
 	#[command(visible_alias = "int")]
 	Interest {
 		name: String,
@@ -47,12 +55,14 @@ pub enum UserCommands {
 	Unfavorite {
 		name: String,
 	},
+	/// Who should I rotate next?
 	Shark,
 	Rotate {
 		track: String,
 	},
 	#[command(visible_alias = "fin")]
 	Finish,
+	/// Remove person from rotation
 	#[command(visible_alias = "uni")]
 	Uninterest,
 }
