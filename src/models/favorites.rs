@@ -34,6 +34,17 @@ impl FavoriteRepo {
 		self.save()
 	}
 
+	pub fn remove(mut self, artist: &str) -> Result<(), &'static str> {
+		self.contents = self
+			.contents
+			.lines()
+			.filter(|line| line.split(" — ").nth(1).unwrap_or_default() != artist)
+			.map(|line| line.to_owned())
+			.collect::<Vec<_>>()
+			.join("\n");
+		self.save()
+	}
+
 	fn save(self) -> Result<(), &'static str> {
 		fs::write(FAVORITE_FILE, self.contents).map_err(|_| "couldn't write to favorites file")
 	}

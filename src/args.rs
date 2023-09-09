@@ -19,6 +19,7 @@ pub enum UserCommands {
 	},
 	#[command(visible_alias = "con")]
 	Consent,
+	NoMusic,
 	Touch {
 		track: String,
 	},
