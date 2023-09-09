@@ -322,11 +322,17 @@ pub fn uninterest(name: Option<String>) -> ExitCode {
 		}
 	};
 	let artist: String = match name {
-		Some(artist) => match rotate_repo.remove(&artist) {
-			Ok(()) => artist,
-			Err(message) => {
-				eprintln!("{}", message);
+		Some(artist) => {
+			if !rotate_repo.has(&artist) {
+				eprintln!("rotate file doesn't have {}", artist);
 				return ExitCode::FAILURE;
+			}
+			match rotate_repo.remove(&artist) {
+				Ok(()) => artist,
+				Err(message) => {
+					eprintln!("{}", message);
+					return ExitCode::FAILURE;
+				}
 			}
 		},
 		None => match rotate_repo.remove_first() {
