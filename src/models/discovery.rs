@@ -36,7 +36,6 @@ impl DiscoveryRepo {
 }
 
 fn parse() -> Result<String, &'static str> {
-	let contents =
-		fs::read_to_string(DISCOVERY_FILE).map_err(|_| "couldn't read discovery file")?;
+	let contents = fs::read_to_string(DISCOVERY_FILE).map_err(|_| "couldn't read discovery file")?;
 	Ok(contents)
 }

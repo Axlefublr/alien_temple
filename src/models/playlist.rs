@@ -5,6 +5,7 @@ use std::fs;
 const MAX_PLAYLIST: u32 = 50;
 const STEP: u32 = 9;
 
+#[derive(Clone)]
 pub struct PlaylistRepo {
 	pub current: u32,
 	pub artist: String,
@@ -21,14 +22,8 @@ impl PlaylistRepo {
 			.ok_or(err_msg)?
 			.parse()
 			.map_err(|_| "couldn't parse first section of playlist file to a u32")?;
-		let artist = sections
-			.next()
-			.ok_or(err_msg)?
-			.to_owned();
-		let track = sections
-			.next()
-			.ok_or(err_msg)?
-			.to_owned();
+		let artist = sections.next().ok_or(err_msg)?.to_owned();
+		let track = sections.next().ok_or(err_msg)?.to_owned();
 		Ok(Self {
 			current,
 			artist,

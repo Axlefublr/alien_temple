@@ -91,12 +91,7 @@ impl RotateRepo {
 		self.contents = self
 			.contents
 			.lines()
-			.filter(|line| {
-				line.split(" — ")
-					.nth(1)
-					.expect("rotate file doesn't use —")
-					!= artist
-			})
+			.filter(|line| line.split(" — ").nth(1).expect("rotate file doesn't use —") != artist)
 			.map(|line| line.to_owned())
 			.collect::<Vec<_>>()
 			.join("\n");
