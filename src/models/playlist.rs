@@ -39,10 +39,12 @@ impl PlaylistRepo {
 		}
 	}
 
-	pub fn update(mut self, artist: &str, track: &str) -> Result<(), &'static str> {
+	pub fn update(mut self, artist: &str, track: &str) -> Result<String, &'static str> {
 		self.artist = artist.to_owned();
 		self.track = track.to_owned();
-		self.save()
+		let message = self.to_string();
+		self.save();
+		Ok(message)
 	}
 
 	pub fn next(mut self) -> Result<(), &'static str> {

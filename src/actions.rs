@@ -41,11 +41,14 @@ pub fn playlist(name: String, track: String) -> ExitCode {
 			return ExitCode::FAILURE;
 		}
 	};
-	if let Err(message) = playlist_repo.clone().update(&name, &track) {
-		eprintln!("{}", message);
-		return ExitCode::FAILURE;
-	}
-	if let Err(message) = git_add_commit(&format!("playlist {}", playlist_repo)) {
+	let commit_message = match playlist_repo.update(&name, &track) {
+		Ok(message) => message,
+		Err(error) => {
+			eprintln!("{}", error);
+			return ExitCode::FAILURE
+		}
+	};
+	if let Err(message) = git_add_commit(&format!("playlist {}", commit_message)) {
 		eprintln!("{}", message);
 		return ExitCode::FAILURE;
 	}
