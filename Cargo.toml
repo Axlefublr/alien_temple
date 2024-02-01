@@ -9,7 +9,8 @@ readme = "README.md"
 homepage = "https://github.com/Axlefublr/alien_temple"
 repository = "https://github.com/Axlefublr/alien_temple"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lints.rustdoc]
+unescaped_backticks = "deny"
 
 [dependencies]
 chrono = "0.4.29"
