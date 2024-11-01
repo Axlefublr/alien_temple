@@ -54,6 +54,7 @@ pub fn playlist(name: String, track: String) -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("playlist {} — {}", name, track);
     ExitCode::SUCCESS
 }
 
@@ -96,6 +97,7 @@ pub fn no_music() -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("nomusiced {}", artist);
     ExitCode::SUCCESS
 }
 
@@ -133,6 +135,7 @@ pub fn touch(track: String) -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("touched {}", &artist);
     ExitCode::SUCCESS
 }
 
@@ -155,6 +158,7 @@ pub fn tinish() -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("touched & finished {}", artist);
     ExitCode::SUCCESS
 }
 
@@ -189,6 +193,7 @@ pub fn interest(name: String, timestamp: Option<String>) -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("interested {}", name);
     ExitCode::SUCCESS
 }
 
@@ -208,6 +213,7 @@ pub fn discover(name: String, timestamp: Option<String>) -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("discovered {}", name);
     ExitCode::SUCCESS
 }
 
@@ -231,6 +237,7 @@ pub fn favorite(name: String, timestamp: Option<String>) -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("favorited {}", name);
     ExitCode::SUCCESS
 }
 
@@ -254,6 +261,7 @@ pub fn unfavorite(name: String) -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("unfavorited {}", name);
     ExitCode::SUCCESS
 }
 
@@ -297,6 +305,7 @@ pub fn rotate(track: String) -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("rotated {}", artist);
     ExitCode::SUCCESS
 }
 
@@ -320,6 +329,7 @@ pub fn finish() -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("rotate & finish {}", artist);
     ExitCode::SUCCESS
 }
 
@@ -357,5 +367,6 @@ pub fn uninterest(name: Option<String>) -> ExitCode {
         eprintln!("{}", message);
         return ExitCode::FAILURE;
     }
+    println!("uninterest {}", artist);
     ExitCode::SUCCESS
 }

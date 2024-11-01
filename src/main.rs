@@ -4,7 +4,6 @@ use args::Args;
 use args::UserCommands;
 use clap::Parser;
 
-// remove me
 mod actions;
 mod args;
 mod extra;
